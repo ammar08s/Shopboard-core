@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Discover everyday essentials and join ShopBoard." />
+    <title>ShopBoard — Everyday essentials</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; color: #21372f; background: #faf9f6; font: 1rem/1.6 system-ui, sans-serif; }
+      header, main, footer { width: min(100% - 2rem, 68rem); margin-inline: auto; }
+      header, footer { padding-block: 1.5rem; }
+      header { border-bottom: 1px solid #d6ded8; }
+      a { color: #245c46; text-underline-offset: 0.2em; }
+      .brand { font-size: 1.5rem; font-weight: 800; text-decoration: none; }
+      nav ul { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 0; list-style: none; }
+      section { padding-block: 3rem; }
+      h1, h2, h3 { line-height: 1.2; }
+      h1 { max-width: 18ch; font-size: clamp(2.5rem, 6vw, 4rem); }
+      h2 { font-size: 2rem; }
+      .products { display: grid; gap: 1rem; }
+      article { padding: 1.5rem; border: 1px solid #d6ded8; border-radius: 0.75rem; background: white; }
+      article h3 { margin-top: 0; }
+      .price { font-weight: 700; }
+      form { max-width: 30rem; }
+      .field { margin-bottom: 1.25rem; }
+      label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+      input { width: 100%; padding: 0.75rem; border: 1px solid #74877b; border-radius: 0.3rem; font: inherit; }
+      small { display: block; margin-top: 0.35rem; }
+      .button { display: inline-block; padding: 0.75rem 1.25rem; border: 0; border-radius: 0.3rem; background: #245c46; color: white; font: inherit; text-decoration: none; cursor: pointer; }
+      .button:hover { background: #193e30; }
+      :focus-visible { outline: 3px solid #a75b14; outline-offset: 4px; }
+      .skip-link { position: absolute; top: -5rem; left: 1rem; padding: 0.75rem; background: white; }
+      .skip-link:focus { top: 1rem; }
+      #register, footer { border-top: 1px solid #d6ded8; }
+      @media (min-width: 40rem) {
+        header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+        .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header>
+      <a class="brand" href="#hero">ShopBoard</a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main-content">
+      <section id="hero" aria-labelledby="hero-title">
+        <p>Simple things. Better days.</p>
+        <h1 id="hero-title">Everyday essentials, all on one board.</h1>
+        <p>Discover thoughtful finds for work, home, and everything in between.</p>
+        <a class="button" href="#products">Explore products</a>
+      </section>
+      <section id="products" aria-labelledby="products-title">
+        <h2 id="products-title">Featured products</h2>
+        <div class="products">
+          <article aria-labelledby="notebook-title">
+            <h3 id="notebook-title">Everyday notebook</h3>
+            <p>A place for big ideas, daily notes, and fresh starts.</p>
+            <p class="price">$12.00 USD</p>
+          </article>
+          <article aria-labelledby="bottle-title">
+            <h3 id="bottle-title">Reusable water bottle</h3>
+            <p>Keep your favourite drink close, wherever the day takes you.</p>
+            <p class="price">$24.00 USD</p>
+          </article>
+          <article aria-labelledby="tote-title">
+            <h3 id="tote-title">Canvas tote bag</h3>
+            <p>A dependable carryall for market trips and everyday adventures.</p>
+            <p class="price">$18.00 USD</p>
+          </article>
+        </div>
+      </section>
+      <section id="register" aria-labelledby="register-title">
+        <h2 id="register-title">Join ShopBoard</h2>
+        <p>All fields are required. This demo validates your details but does not create an account.</p>
+        <form method="post" action="#register">
+          <div class="field">
+            <label for="full-name">Full name</label>
+            <input id="full-name" name="fullName" type="text" autocomplete="name" maxlength="100" required />
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" aria-describedby="password-help" required />
+            <small id="password-help">Use at least 8 characters.</small>
+          </div>
+          <button class="button" type="submit">Register</button>
+          <p id="register-status" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <footer><p>ShopBoard · Thoughtful finds for everyday living.</p></footer>
+    <script type="module">
+      // Native validation runs first; prevent sending demo credentials to a server.
+      document.querySelector('form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        document.querySelector('#register-status').textContent =
+          'Your details passed validation. This demo has not created an account.';
+      });
+    </script>
+  </body>
+</html>

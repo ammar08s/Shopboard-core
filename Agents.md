@@ -1,0 +1,7 @@
+stack: Vite (vanilla), HTML, CSS
+
+- Semantic HTML first
+- Every input has a label
+- Mobile-first, min-width media queries
+- No !important
+- Explain every change
