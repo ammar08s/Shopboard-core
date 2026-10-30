@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,6 +33,11 @@
       .skip-link { position: absolute; top: -5rem; left: 1rem; padding: 0.75rem; background: white; }
       .skip-link:focus { top: 1rem; }
       #register, footer { border-top: 1px solid #d6ded8; }
+      .cart { margin-top: 2rem; padding: 1.5rem; border: 1px solid #d6ded8; border-radius: 0.75rem; background: white; }
+      .cart ul { list-style: none; padding: 0; }
+      .cart li { padding-block: 1rem; border-bottom: 1px solid #d6ded8; }
+      .cart input { width: 6rem; margin-right: 1rem; }
+      .button:disabled { opacity: 0.55; cursor: default; }
       @media (min-width: 40rem) {
         header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
         .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -47,6 +52,7 @@
         <ul>
           <li><a href="#hero">Home</a></li>
           <li><a href="#products">Products</a></li>
+          <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
           <li><a href="#register">Register</a></li>
         </ul>
       </nav>
@@ -60,23 +66,16 @@
       </section>
       <section id="products" aria-labelledby="products-title">
         <h2 id="products-title">Featured products</h2>
-        <div class="products">
-          <article aria-labelledby="notebook-title">
-            <h3 id="notebook-title">Everyday notebook</h3>
-            <p>A place for big ideas, daily notes, and fresh starts.</p>
-            <p class="price">$12.00 USD</p>
-          </article>
-          <article aria-labelledby="bottle-title">
-            <h3 id="bottle-title">Reusable water bottle</h3>
-            <p>Keep your favourite drink close, wherever the day takes you.</p>
-            <p class="price">$24.00 USD</p>
-          </article>
-          <article aria-labelledby="tote-title">
-            <h3 id="tote-title">Canvas tote bag</h3>
-            <p>A dependable carryall for market trips and everyday adventures.</p>
-            <p class="price">$18.00 USD</p>
-          </article>
-        </div>
+        <div class="products"></div>
+        <aside class="cart" id="cart" aria-labelledby="cart-title">
+          <h3 id="cart-title" tabindex="-1">Your cart</h3>
+          <p id="cart-empty">Your cart is empty. Add a product to get started.</p>
+          <ul id="cart-items" aria-label="Cart items"></ul>
+          <p class="price">Total: <span id="cart-total">$0.00</span> USD</p>
+          <button class="button" id="clear-cart" type="button" disabled>Clear cart</button>
+          <p id="cart-status" role="status"></p>
+          <small>Demo cart only. Checkout and payments are not available.</small>
+        </aside>
       </section>
       <section id="register" aria-labelledby="register-title">
         <h2 id="register-title">Join ShopBoard</h2>
@@ -101,6 +100,7 @@
       </section>
     </main>
     <footer><p>ShopBoard · Thoughtful finds for everyday living.</p></footer>
+    <script type="module" src="/src/shop-cart.js"></script>
     <script type="module">
       // Native validation runs first; prevent sending demo credentials to a server.
       document.querySelector('form').addEventListener('submit', (event) => {
