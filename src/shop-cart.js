@@ -1,4 +1,4 @@
-import './products.js';
+import './main.js';
 import { products, addToCart, updateCart, restoreCart, cartTotal } from './cart.js';
 const storageKey = 'shopboard-cart';
 const list = document.querySelector('#cart-items');
@@ -66,4 +66,3 @@ document.querySelector('#clear-cart').addEventListener('click', () => {
   save('Cart cleared.', 'cart-title');
 });
 render();
-console.log("hello")

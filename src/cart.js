@@ -1,4 +1,4 @@
-import productsConsole from './console/products-console.js';
+import { products as productsConsole } from './data.js';
 
 export const products = {
   ...Object.fromEntries(productsConsole.map((product) => [product.id, { name: product.name, price: Math.round(product.price * 100) }])),
