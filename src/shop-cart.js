@@ -51,16 +51,16 @@ function save(message, focusId) {
   if (focusId) document.getElementById(focusId)?.focus();
 }
 
-document.querySelectorAll('[data-add-to-cart]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const id = button.dataset.addToCart;
-    const quantity = cart[id] || 0;
-    if (quantity === 99) { status.textContent = 'You can add up to 99 of each product.'; return; }
-    cart = addToCart(cart, id);
-    save(`${products[id].name} added to cart.`);
-  });
+// Handle clicks on the container so newly rendered cart buttons keep working.
+document.querySelector('#products .products').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-add-to-cart]');
+  if (!button) return;
+  const id = button.dataset.addToCart;
+  const quantity = cart[id] || 0;
+  if (quantity === 99) { status.textContent = 'You can add up to 99 of each product.'; return; }
+  cart = addToCart(cart, id);
+  save(`${products[id].name} added to cart.`);
 });
-
 document.querySelector('#clear-cart').addEventListener('click', () => {
   cart = {};
   save('Cart cleared.', 'cart-title');

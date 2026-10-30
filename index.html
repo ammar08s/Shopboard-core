@@ -18,6 +18,7 @@
       h1, h2, h3 { line-height: 1.2; }
       h1 { max-width: 18ch; font-size: clamp(2.5rem, 6vw, 4rem); }
       h2 { font-size: 2rem; }
+      .product-controls { display: grid; gap: 1rem; }
       .products { display: grid; gap: 1rem; }
       article { padding: 1.5rem; border: 1px solid #d6ded8; border-radius: 0.75rem; background: white; }
       article h3 { margin-top: 0; }
@@ -25,7 +26,7 @@
       form { max-width: 30rem; }
       .field { margin-bottom: 1.25rem; }
       label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
-      input { width: 100%; padding: 0.75rem; border: 1px solid #74877b; border-radius: 0.3rem; font: inherit; }
+      input, select { width: 100%; padding: 0.75rem; border: 1px solid #74877b; border-radius: 0.3rem; font: inherit; }
       small { display: block; margin-top: 0.35rem; }
       .button { display: inline-block; padding: 0.75rem 1.25rem; border: 0; border-radius: 0.3rem; background: #245c46; color: white; font: inherit; text-decoration: none; cursor: pointer; }
       .button:hover { background: #193e30; }
@@ -40,6 +41,7 @@
       .button:disabled { opacity: 0.55; cursor: default; }
       @media (min-width: 40rem) {
         header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+        .product-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       }
     </style>
@@ -66,6 +68,26 @@
       </section>
       <section id="products" aria-labelledby="products-title">
         <h2 id="products-title">Featured products</h2>
+        <div class="product-controls" role="group" aria-label="Product search and filters">
+          <div class="field">
+            <label for="searchInput">Search by name</label>
+            <input id="searchInput" type="text" placeholder="Search products" />
+          </div>
+          <div class="field">
+            <label for="categorySelect">Category</label>
+            <select id="categorySelect">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sortSelect">Sort by price</label>
+            <select id="sortSelect">
+              <option value="">Default Order</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
         <div class="products"></div>
         <aside class="cart" id="cart" aria-labelledby="cart-title">
           <h3 id="cart-title" tabindex="-1">Your cart</h3>
