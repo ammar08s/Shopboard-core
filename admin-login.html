@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin sign in | ShopBoard</title>
+  <link rel="stylesheet" href="/src/styles/shop.css" />
+</head>
+<body data-page="login">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="admin-header">
+    <a class="brand" href="/">ShopBoard<span aria-hidden="true">.</span></a>
+    <a href="/">Back to the shop <span aria-hidden="true">&rarr;</span></a>
+  </header>
+  <main id="main-content" class="login-layout">
+    <div class="login-intro">
+      <p class="eyebrow">SHOPBOARD ADMIN</p>
+      <h1>A little space.<br />A clear overview.</h1>
+      <p>Your collection, all in one place. Step inside to explore the ShopBoard demo dashboard.</p>
+      <span class="demo-badge">DEMO EXPERIENCE</span>
+    </div>
+    <section class="login-panel" aria-labelledby="login-title">
+      <h2 id="login-title">Welcome back</h2>
+      <p>Sign in to explore your product catalog.</p>
+      <p id="demo-help" class="demo-note">This is a demo. Use any email and any password to continue. Do not enter a real password.</p>
+      <form id="admin-login-form" action="/admin-dashboard.html" aria-describedby="demo-help">
+        <div class="field">
+          <label for="admin-email">Email address</label>
+          <input id="admin-email" type="email" placeholder="admin@example.com" autocomplete="off" required />
+        </div>
+        <div class="field">
+          <label for="admin-password">Demo password</label>
+          <input id="admin-password" type="password" placeholder="Any demo password" autocomplete="off" required />
+        </div>
+        <button class="button" type="submit">Open demo dashboard <span aria-hidden="true">&rarr;</span></button>
+      </form>
+      <small>No authentication takes place. Credentials are not saved or sent.</small>
+    </section>
+  </main>
+  <footer><a class="brand" href="/">ShopBoard<span aria-hidden="true">.</span></a><p>Thoughtful finds for everyday living.</p></footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

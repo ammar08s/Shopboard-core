@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin dashboard | ShopBoard</title>
+  <link rel="stylesheet" href="/src/styles/shop.css" />
+</head>
+<body data-page="admin">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="admin-header">
+    <a class="brand" href="/">ShopBoard<span aria-hidden="true">.</span></a>
+    <nav aria-label="Admin navigation"><ul>
+      <li><a href="/admin-dashboard.html" aria-current="page">Dashboard</a></li>
+      <li><a href="/">View shop <span aria-hidden="true">&rarr;</span></a></li>
+      <li><a href="/admin-login.html">Exit demo</a></li>
+    </ul></nav>
+  </header>
+  <main id="main-content" class="dashboard">
+    <span class="demo-badge">DEMO DASHBOARD</span>
+    <h1>Your shop, at a glance.</h1>
+    <p class="dashboard-intro">Add and update products, manage availability, or remove items from the collection. Changes are saved only in this browser.</p>
+    <div class="stats">
+      <section class="stat-card" aria-labelledby="products-stat-title"><h2 id="products-stat-title">Products in the collection</h2><p id="product-count">&mdash;</p></section>
+      <section class="stat-card" aria-labelledby="categories-stat-title"><h2 id="categories-stat-title">Product categories</h2><p id="category-count">&mdash;</p></section>
+      <section class="stat-card" aria-labelledby="price-stat-title"><h2 id="price-stat-title">Average product price</h2><p id="average-price">&mdash;</p></section>
+    </div>
+    <p id="admin-status" role="status" aria-live="polite"></p>
+    <section class="catalog-panel" aria-labelledby="catalog-title">
+      <div class="catalog-heading">
+        <div><h2 id="catalog-title" tabindex="-1">Product catalog</h2><p>Manage the essentials in your collection.</p></div>
+        <button class="button" id="add-product" type="button" aria-haspopup="dialog" aria-controls="product-dialog"><span aria-hidden="true">+</span> Add product</button>
+      </div>
+      <div class="table-scroll" role="region" aria-label="Product catalog table" tabindex="0">
+        <table>
+          <caption>Your saved collection. Edit details, change stock status, or delete a product.</caption>
+          <thead><tr><th scope="col">Product</th><th scope="col">Category</th><th scope="col">Price (USD)</th><th scope="col">Availability</th><th scope="col">Actions</th></tr></thead>
+          <tbody id="admin-products"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <dialog id="product-dialog" class="product-dialog" aria-labelledby="editor-title" aria-describedby="editor-help">
+    <div class="editor-header">
+      <div><p class="eyebrow">YOUR COLLECTION</p><h2 id="editor-title">Add product</h2></div>
+      <button class="button secondary-button" id="close-editor" type="button" aria-label="Close product editor">Close</button>
+    </div>
+    <p id="editor-help">Give your product a photo, a name, and a place in the collection.</p>
+    <form id="product-form" aria-describedby="editor-help">
+      <div class="product-editor-layout">
+        <fieldset class="photo-panel">
+          <legend>Product photo</legend>
+          <div class="image-preview-frame">
+            <img id="image-preview" alt="Selected product photo preview" width="400" height="320" hidden />
+            <p id="image-placeholder">Your product photo<br /><span>Upload an image or paste a URL</span></p>
+          </div>
+          <div class="field">
+            <label for="image-source">Photo source</label>
+            <select id="image-source"><option value="upload">Upload photo</option><option value="url">Image URL</option><option value="demo">Demo photo</option></select>
+          </div>
+          <div class="field" id="image-upload-field">
+            <label for="product-upload">Upload photo</label>
+            <input id="product-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif" aria-describedby="upload-help" />
+            <small id="upload-help">JPG, PNG, WebP, or GIF, up to 1 MB. Stored in this browser with the product.</small>
+          </div>
+          <div class="field" id="image-url-field" hidden>
+            <label for="product-image-url">Image URL</label>
+            <input id="product-image-url" type="url" maxlength="2048" placeholder="https://example.com/product.jpg" aria-describedby="url-help" disabled />
+            <small id="url-help">Paste a direct HTTP or HTTPS link to an image.</small>
+          </div>
+          <div class="field" id="image-demo-field" hidden>
+            <label for="product-image">Demo photo</label>
+            <select id="product-image" disabled></select>
+          </div>
+        </fieldset>
+        <fieldset class="details-panel">
+          <legend>Product details</legend>
+          <div class="field">
+            <label for="product-name">Product name</label>
+            <input id="product-name" type="text" maxlength="100" placeholder="e.g. Everyday canvas bag" required autofocus />
+          </div>
+          <div class="field">
+            <label for="product-category">Category</label>
+            <select id="product-category" required aria-describedby="category-help"></select>
+            <small id="category-help">Choose a category or select Add a new category.</small>
+          </div>
+          <div class="field" id="new-category-field" hidden>
+            <label for="new-category">New category name</label>
+            <input id="new-category" type="text" maxlength="60" placeholder="e.g. Home essentials" disabled />
+          </div>
+          <div class="editor-fields">
+            <div class="field"><label for="product-price">Price (USD)</label><input id="product-price" type="number" min="0" max="1000000" step="0.01" placeholder="0.00" required /></div>
+            <div class="field"><label for="product-stock">Availability</label><select id="product-stock" required><option value="true">In stock</option><option value="false">Out of stock</option></select></div>
+          </div>
+        </fieldset>
+      </div>
+      <p id="editor-status" class="editor-status" role="status" aria-live="polite"></p>
+      <div class="editor-footer">
+        <small>Changes are saved when you submit.</small>
+        <div class="editor-actions"><button class="button secondary-button" id="cancel-edit" type="button">Cancel</button><button class="button" id="save-product" type="submit">Add product</button></div>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description">
+    <h2 id="delete-title">Delete product?</h2>
+    <p id="delete-description"></p>
+    <form id="delete-form" method="dialog">
+      <div class="editor-actions">
+        <button class="button secondary-button" value="cancel" autofocus>Keep product</button>
+        <button class="button danger-button" value="delete">Delete product</button>
+      </div>
+    </form>
+  </dialog>
+  <footer><a class="brand" href="/">ShopBoard<span aria-hidden="true">.</span></a><p>Demo workspace &middot; ShopBoard</p><a href="/">Back to the shop</a></footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

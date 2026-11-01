@@ -1,4 +1,4 @@
- const products_console = [
+const catalog = [
   { id: 1, name: "Leather Tote Bag", category: "Bags", price: 89 },
   { id: 2, name: "Canvas Backpack", category: "Bags", price: 49 },
   { id: 3, name: "Mini Crossbody Bag", category: "Bags", price: 39 },
@@ -12,4 +12,12 @@
   { id: 11, name: "Rain Boots", category: "Shoes", price: 60 },
   { id: 12, name: "Leather Belt", category: "Accessories", price: 30 },
 ];
-export default products_console;
+
+
+// The initial demo catalog contains product data only; saved changes live in state.js.
+export const products = catalog.map((product) => ({
+  ...product,
+  image: `/images/product-${product.id}.jpg`,
+  inStock: true,
+}));
+export const categories = [...new Set(products.map((product) => product.category))];

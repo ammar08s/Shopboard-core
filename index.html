@@ -4,49 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Discover everyday essentials and join ShopBoard." />
-    <title>ShopBoard — Everyday essentials</title>
-    <style>
-      * { box-sizing: border-box; }
-      body { margin: 0; color: #21372f; background: #faf9f6; font: 1rem/1.6 system-ui, sans-serif; }
-      header, main, footer { width: min(100% - 2rem, 68rem); margin-inline: auto; }
-      header, footer { padding-block: 1.5rem; }
-      header { border-bottom: 1px solid #d6ded8; }
-      a { color: #245c46; text-underline-offset: 0.2em; }
-      .brand { font-size: 1.5rem; font-weight: 800; text-decoration: none; }
-      nav ul { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 0; list-style: none; }
-      section { padding-block: 3rem; }
-      h1, h2, h3 { line-height: 1.2; }
-      h1 { max-width: 18ch; font-size: clamp(2.5rem, 6vw, 4rem); }
-      h2 { font-size: 2rem; }
-      .product-controls { display: grid; gap: 1rem; }
-      .products { display: grid; gap: 1rem; }
-      article { padding: 1.5rem; border: 1px solid #d6ded8; border-radius: 0.75rem; background: white; }
-      article h3 { margin-top: 0; }
-      .price { font-weight: 700; }
-      form { max-width: 30rem; }
-      .field { margin-bottom: 1.25rem; }
-      label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
-      input, select { width: 100%; padding: 0.75rem; border: 1px solid #74877b; border-radius: 0.3rem; font: inherit; }
-      small { display: block; margin-top: 0.35rem; }
-      .button { display: inline-block; padding: 0.75rem 1.25rem; border: 0; border-radius: 0.3rem; background: #245c46; color: white; font: inherit; text-decoration: none; cursor: pointer; }
-      .button:hover { background: #193e30; }
-      :focus-visible { outline: 3px solid #a75b14; outline-offset: 4px; }
-      .skip-link { position: absolute; top: -5rem; left: 1rem; padding: 0.75rem; background: white; }
-      .skip-link:focus { top: 1rem; }
-      #register, footer { border-top: 1px solid #d6ded8; }
-      .cart { margin-top: 2rem; padding: 1.5rem; border: 1px solid #d6ded8; border-radius: 0.75rem; background: white; }
-      .cart ul { list-style: none; padding: 0; }
-      .cart li { padding-block: 1rem; border-bottom: 1px solid #d6ded8; }
-      .cart input { width: 6rem; margin-right: 1rem; }
-      .button:disabled { opacity: 0.55; cursor: default; }
-      @media (min-width: 40rem) {
-        header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-        .product-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      }
-    </style>
+    <title>ShopBoard | Everyday essentials</title>
+    <link rel="stylesheet" href="/src/styles/shop.css" />
   </head>
-  <body>
+  <body data-page="shop">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header>
       <a class="brand" href="#hero">ShopBoard</a>
@@ -56,18 +17,21 @@
           <li><a href="#products">Products</a></li>
           <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
           <li><a href="#register">Register</a></li>
+          <li><a class="admin-link" href="/admin-login.html">Admin <span aria-hidden="true">&rarr;</span></a></li>
         </ul>
       </nav>
     </header>
     <main id="main-content">
       <section id="hero" aria-labelledby="hero-title">
-        <p>Simple things. Better days.</p>
-        <h1 id="hero-title">Everyday essentials, all on one board.</h1>
-        <p>Discover thoughtful finds for work, home, and everything in between.</p>
-        <a class="button" href="#products">Explore products</a>
+        <p class="eyebrow">THE EVERYDAY EDIT</p>
+        <h1 id="hero-title">Good things.<br />Every day.</h1>
+        <p>Thoughtful bags, shoes, and little essentials. Find your next everyday favourite.</p>
+        <a class="button" href="#products">Explore the collection <span aria-hidden="true">&rarr;</span></a>
+        <p class="hero-note">A considered collection. An easier everyday.</p>
       </section>
       <section id="products" aria-labelledby="products-title">
-        <h2 id="products-title">Featured products</h2>
+        <div class="section-heading"><div><p class="eyebrow">FIND YOUR EVERYDAY</p><h2 id="products-title">The collection</h2></div><p id="collection-summary">12 essentials &middot; 3 categories</p></div>
+        <p class="photo-note">Illustrative demo photography.</p>
         <div class="product-controls" role="group" aria-label="Product search and filters">
           <div class="field">
             <label for="searchInput">Search by name</label>
@@ -121,15 +85,7 @@
         </form>
       </section>
     </main>
-    <footer><p>ShopBoard · Thoughtful finds for everyday living.</p></footer>
-    <script type="module" src="/src/shop-cart.js"></script>
-    <script type="module">
-      // Native validation runs first; prevent sending demo credentials to a server.
-      document.querySelector('form').addEventListener('submit', (event) => {
-        event.preventDefault();
-        document.querySelector('#register-status').textContent =
-          'Your details passed validation. This demo has not created an account.';
-      });
-    </script>
+    <footer><a class="brand" href="#hero">ShopBoard<span aria-hidden="true">.</span></a><p>Thoughtful finds for everyday living.</p><a href="/admin-login.html">Admin sign in</a></footer>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
