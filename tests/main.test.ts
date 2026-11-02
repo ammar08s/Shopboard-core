@@ -29,7 +29,7 @@ test('shared entry point keeps shop cart, catalog updates, registration, and dem
     location: { assign: (url) => { loginDestination = url; } },
   };
   try {
-    await import('../src/main.js');
+    await import('../src/main.ts');
     element('#products .products').listeners.click({ target: { closest: () => ({ dataset: { addToCart: '1' } }) } });
     assert.equal(element('#cart-count').textContent, 1);
     assert.equal(element('#cart-total').textContent, '$89.00');
@@ -38,7 +38,7 @@ test('shared entry point keeps shop cart, catalog updates, registration, and dem
     quantityInput.valueAsNumber = 2;
     quantityInput.listeners.change();
     assert.equal(element('#cart-total').textContent, '$178.00');
-    const state = await import('../src/app/state.js');
+    const state = await import('../src/features/products/state.ts');
     state.saveProduct({ ...state.products[0], inStock: false });
     browserEvents.storage({ key: state.catalogStorageKey });
     assert.equal(element('#cart-count').textContent, 0);
@@ -48,7 +48,7 @@ test('shared entry point keeps shop cart, catalog updates, registration, and dem
     element('#register form').listeners.submit({ preventDefault: () => { prevented = true; } });
     assert.equal(prevented, true);
     assert.ok(element('#register-status').textContent.includes('has not created an account'));
-    const { initializeLogin } = await import('../src/app/ui.js');
+    const { initializeLogin } = await import('../src/features/account/ui.ts');
     initializeLogin();
     let reset = false;
     element('#admin-login-form').listeners.submit({ preventDefault() {}, currentTarget: { reset: () => { reset = true; } } });

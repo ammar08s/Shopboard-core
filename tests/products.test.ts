@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { products } from '../src/app/data.js';
+import { products } from '../src/features/products/data.ts';
 
 test('product controls combine search, category and price order without changing the catalog', async () => {
   const elements = Object.fromEntries(['#searchInput', '#categorySelect', '#sortSelect', '#products .products'].map((selector) => [selector, {
@@ -10,7 +10,7 @@ test('product controls combine search, category and price order without changing
   globalThis.document = { querySelector: (selector) => elements[selector] };
   const originalProducts = structuredClone(products);
   try {
-    const { initializeProducts } = await import('../src/main.js');
+    const { initializeProducts } = await import('../src/main.ts');
     initializeProducts();
     const search = elements['#searchInput'];
     const category = elements['#categorySelect'];
@@ -46,7 +46,7 @@ test('product controls combine search, category and price order without changing
     sort.listeners.change();
     assert.deepEqual(displayedIds(), products.map((product) => product.id));
     assert.deepEqual(products, originalProducts);
-    const { renderProductCards } = await import('../src/app/ui.js');
+    const { renderProductCards } = await import('../src/features/products/ui.ts');
     renderProductCards([{ ...products[0], name: '<Demo bag>', category: 'Travel & Bags', image: '/images/product-1.jpg', inStock: false }]);
     assert.ok(container.innerHTML.includes('Out of stock'));
     assert.match(container.innerHTML, /<button[^>]*disabled/);

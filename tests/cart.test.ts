@@ -1,7 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { products } from '../src/app/data.js';
-import { changeCartQuantity, restoreCartItems, calculateCartTotal } from '../src/app/logic.js';
+import { products } from '../src/features/products/data.ts';
+import { changeCartQuantity } from '../src/features/cart/logic/changeCartQuantity.ts';
+import { restoreCartItems } from '../src/features/cart/logic/restoreCartItems.ts';
+import { calculateCartTotal } from '../src/features/cart/logic/calculateCartTotal.ts';
 
 test('changing quantities updates the cart and totals use cents', () => {
   const firstCart = changeCartQuantity({}, 'notebook', 1, products);

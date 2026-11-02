@@ -30,8 +30,8 @@ test('dashboard form and row controls create, edit, toggle stock, cancel, and co
   const action = (type, id) => element('#admin-products').listeners.click({ target: { closest: () => ({ dataset: { action: type, id: String(id) } }) } });
   const confirm = (value) => element('#delete-form').listeners.submit({ preventDefault() {}, submitter: { value } });
   try {
-    await import('../src/main.js');
-    const { products } = await import('../src/app/state.js');
+    await import('../src/main.ts');
+    const { products } = await import('../src/features/products/state.ts');
     const originalCount = products.length;
     assert.equal(element('#product-dialog').open, false);
     element('#add-product').listeners.click();

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateProduct } from '../src/app/logic.js';
+import { validateProduct } from '../src/features/products/logic/validateProduct.ts';
 
 const product = { name: 'Photo test', category: 'New category', price: 25, inStock: true };
 const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII=';
