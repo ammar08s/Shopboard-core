@@ -14,13 +14,14 @@ const catalog = [
 ];
 
 
-// The initial demo catalog contains product data only; saved changes live in state.ts.
+// Input: each demo catalog record; output: a product with its default demo photo and stock status.
 export const products = catalog.map((product) => ({
   ...product,
   image: `/images/product-${product.id}.jpg`,
   inStock: true,
 }));
-export const categories = [...new Set(products.map((product) => product.category))]
+// Input: a demo product; output: its category for the distinct default category list.
+export const categories = [...new Set(products.map((product) => product.category))];
 export const catalogStorageKey = 'shopboard-products';
 export const maxImageBytes = 1024 * 1024;
 export const imageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];

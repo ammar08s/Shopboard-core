@@ -1,10 +1,18 @@
-stack: Vite (vanilla), TypeScript, HTML, CSS
+stack:
+- Vite (vanilla)
+- TypeScript
+- HTML
+- CSS
 
 - Semantic HTML first
 - Every input has a label
 - Mobile-first, min-width media queries
 - No !important
 - Explain every change
+
+## Rules:
+- The file should not be too long(If not strictly necessary, keep it to a maximum of 100 lines)
+- Every function should have comment line that includes an information about the input and the output
 
 ## Feature-based architecture
 

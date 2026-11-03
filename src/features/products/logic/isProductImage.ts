@@ -1,6 +1,6 @@
 import { maxImageBytes } from '../data.ts';
 
-// isProductImage accepts local demo photos, raster uploads, and absolute HTTP or HTTPS image URLs.
+// Input: an unknown image source; output: whether it is a demo photo, raster upload, or safe HTTP(S) URL.
 export function isProductImage(source: unknown): source is string {
   if (typeof source !== 'string' || !source) return false;
   if (/^\/images\/product-(?:[1-9]|1[0-2])\.jpg$/.test(source)) return true;

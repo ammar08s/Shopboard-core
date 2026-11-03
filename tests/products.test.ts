@@ -1,59 +1,57 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { products } from '../src/features/products/data.ts';
+import { renderProductCards } from '../src/features/products/ui/cards.ts';
+import { createProductControlsFixture } from './helpers/product-controls-fixture.ts';
+import { checkProductControlFiltering } from './helpers/product-controls-filtering.ts';
 
+// Input: an isolated product state module; output: initialization permitted exactly once per module session.
+test('product state claims browsing initialization once', async () => {
+  const state = await import('../src/features/products/state.ts?initialization-test');
+  assert.equal(typeof state.claimProductInitialization, 'function');
+  assert.equal(state.claimProductInitialization(), true);
+  assert.equal(state.claimProductInitialization(), false);
+});
+
+// Input: simulated listing controls; output: verified filtering, navigation, panel, and safe card rendering.
 test('product controls combine search, category and price order without changing the catalog', async () => {
-  const elements = Object.fromEntries(['#searchInput', '#categorySelect', '#sortSelect', '#products .products'].map((selector) => [selector, {
-    value: '', innerHTML: '', listeners: {},
-    addEventListener(event, listener) { this.listeners[event] = listener; },
-  }]));
-  globalThis.document = { querySelector: (selector) => elements[selector] };
   const originalProducts = structuredClone(products);
+  const fixture = await createProductControlsFixture();
+  const { elements, container, search, category, sort, displayedIds } = fixture;
   try {
-    const { initializeProducts } = await import('../src/main.ts');
-    initializeProducts();
-    const search = elements['#searchInput'];
-    const category = elements['#categorySelect'];
-    const sort = elements['#sortSelect'];
-    const container = elements['#products .products'];
-    const displayedIds = () => [...container.innerHTML.matchAll(/data-add-to-cart="(\d+)"/g)].map((match) => Number(match[1]));
-    assert.deepEqual(displayedIds(), products.map((product) => product.id));
-    for (const name of new Set(products.map((product) => product.category))) {
-      assert.ok(category.innerHTML.includes(`value="${name}"`));
-    }
-    category.value = 'Bags';
-    category.listeners.change();
-    assert.deepEqual(displayedIds(), [1, 2, 3, 10]);
-    for (const term of ['bag', 'BAG', 'Bag']) {
-      search.value = term;
-      search.listeners.input();
-      assert.deepEqual(displayedIds(), [1, 3, 10]);
-    }
-    sort.value = 'price-asc';
-    sort.listeners.change();
-    assert.deepEqual(displayedIds(), [3, 1, 10]);
-    sort.value = 'price-desc';
-    sort.listeners.change();
-    assert.deepEqual(displayedIds(), [10, 1, 3]);
+    checkProductControlFiltering(fixture, products);
+    assert.equal(elements['#filters-toggle'].attributes['aria-expanded'], 'false');
+    elements['#filters-toggle'].listeners.click();
+    assert.equal(elements['#filters-toggle'].attributes['aria-expanded'], 'true');
+    assert.equal(elements['#filter-panel'].hidden, false);
+    elements['#filters-toggle'].listeners.click();
+    assert.equal(elements['#filters-toggle'].attributes['aria-expanded'], 'false');
+    assert.equal(elements['#filter-panel'].hidden, true);
     category.value = 'Shoes';
-    category.listeners.change();
-    assert.ok(container.innerHTML.includes('No products found'));
     search.value = '';
     search.listeners.input();
     assert.deepEqual(displayedIds(), [5, 6, 4, 11]);
     category.value = '';
     sort.value = '';
     sort.listeners.change();
+    // Input: a demo product; output: its original product ID.
     assert.deepEqual(displayedIds(), products.map((product) => product.id));
     assert.deepEqual(products, originalProducts);
-    const { renderProductCards } = await import('../src/features/products/ui.ts');
     renderProductCards([{ ...products[0], name: '<Demo bag>', category: 'Travel & Bags', image: '/images/product-1.jpg', inStock: false }]);
     assert.ok(container.innerHTML.includes('Out of stock'));
     assert.match(container.innerHTML, /<button[^>]*disabled/);
     assert.ok(container.innerHTML.includes('&lt;Demo bag&gt;'));
     assert.ok(container.innerHTML.includes('Travel &amp; Bags'));
     assert.ok(!container.innerHTML.includes('<Demo bag>'));
+    const fallback = { hidden: true };
+    const failedImage = { hidden: false, nextElementSibling: fallback,
+      // Input: a selector; output: whether this element is a product image.
+      matches: (selector) => selector === '.product-photo',
+    };
+    container.listeners.error({ target: failedImage });
+    assert.equal(failedImage.hidden, true);
+    assert.equal(fallback.hidden, false);
   } finally {
-    delete globalThis.document;
+    fixture.cleanup();
   }
 });

@@ -1,3 +1,5 @@
+import type { Notify } from '../notifications/types.ts';
+
 export interface Product {
   id: number;
   name: string;
@@ -21,4 +23,5 @@ export interface CatalogOperations {
   saveProduct: (values: ProductValues, id?: number) => Product;
   deleteProduct: (id: number) => void;
   photoOptions: Product[];
+  notify?: Notify;
 }

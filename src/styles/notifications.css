@@ -1,0 +1,45 @@
+.toast-region {
+  position: fixed;
+  z-index: 20;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  width: min(25rem, calc(100% - 2rem));
+  pointer-events: none;
+}
+.toast-list { display: grid; gap: .75rem; max-height: calc(100dvh - 3rem); overflow-y: auto; overscroll-behavior: contain; padding: .25rem; }
+.toast {
+  --toast-accent: #165dcc;
+  --toast-tint: #edf4ff;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 2.75rem;
+  align-items: start;
+  gap: .75rem;
+  padding: 1rem .5rem 1rem 1rem;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--toast-accent);
+  border-radius: .875rem;
+  color: var(--color-text);
+  background: white;
+  box-shadow: 0 8px 32px #2424241f;
+  pointer-events: auto;
+  animation: toast-appear .18s ease-out;
+}
+.toast--success { --toast-accent: #216e39; --toast-tint: #edf8ef; }
+.toast--warning { --toast-accent: #8a4b00; --toast-tint: #fff5e5; }
+.toast--error { --toast-accent: #b42318; --toast-tint: #fff0ed; }
+.toast-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; color: var(--toast-accent); background: var(--toast-tint); font-size: 1rem; font-weight: 700; }
+.toast-content { min-width: 0; padding-block: .125rem; }
+.toast-content strong { display: block; font-size: .875rem; line-height: 1.4; overflow-wrap: anywhere; }
+.toast-content p { margin: .375rem 0 0; font-size: .8125rem; line-height: 1.5; color: var(--color-muted); }
+.toast-dismiss { display: grid; place-items: center; width: 2.75rem; min-height: 2.75rem; margin-top: -.375rem; border: 0; border-radius: .5rem; color: var(--color-muted); background: transparent; font-size: 1.5rem; line-height: 1; }
+.toast-dismiss:hover { color: var(--color-text); background: var(--color-surface-muted); }
+@keyframes toast-appear {
+  from { opacity: 0; transform: translateY(.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (min-width: 40rem) {
+  .toast-region { right: 1.5rem; bottom: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast { animation: none; }
+}

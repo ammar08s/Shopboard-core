@@ -9,61 +9,107 @@
   </head>
   <body data-page="shop">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header>
-      <a class="brand" href="#hero">ShopBoard</a>
-      <nav aria-label="Main navigation">
-        <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#products">Products</a></li>
-          <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
-          <li><a href="#register">Register</a></li>
-          <li><a class="admin-link" href="/admin-login.html">Admin <span aria-hidden="true">&rarr;</span></a></li>
-        </ul>
+    <header class="store-header" id="hero">
+      <div class="utility-row page-width">
+        <p>Good things for your every day.</p>
+        <nav aria-label="Utility navigation"><ul>
+          <li><a href="#products">Shop the collection</a></li>
+          <li><a href="/admin-login.html">Admin access <span aria-hidden="true">&nearr;</span></a></li>
+        </ul></nav>
+      </div>
+      <div class="header-main page-width">
+        <a class="brand" href="/" aria-label="ShopBoard home">ShopBoard<span aria-hidden="true">.</span></a>
+        <div class="header-search" role="search" aria-label="Search the collection">
+          <label for="searchInput">Search products</label>
+          <div class="search-box">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+            <input id="searchInput" type="search" placeholder="What are you looking for today?" autocomplete="off" />
+          </div>
+        </div>
+        <nav class="header-actions" aria-label="Account and cart"><ul>
+          <li><a class="account-link" href="#register" aria-label="Your account: join ShopBoard">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5 21v-2a7 7 0 0 1 14 0v2" /></svg>
+            <span>Your account<small>Join ShopBoard</small></span>
+          </a></li>
+          <li><a class="cart-link" id="cart-link" href="#cart" aria-label="Your cart, 0 items">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 3h3l3 12h11l3-9H6" /><circle cx="9" cy="20" r="1" /><circle cx="19" cy="20" r="1" /></svg>
+            <span>Your cart</span><span class="cart-count" id="cart-count">0</span>
+          </a></li>
+        </ul></nav>
+      </div>
+      <div class="spectrum-strip" aria-hidden="true"></div>
+      <nav class="category-bar" aria-label="Product categories">
+        <ul class="page-width" id="category-navigation"></ul>
       </nav>
     </header>
     <main id="main-content">
-      <section id="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">THE EVERYDAY EDIT</p>
-        <h1 id="hero-title">Good things.<br />Every day.</h1>
-        <p>Thoughtful bags, shoes, and little essentials. Find your next everyday favourite.</p>
-        <a class="button" href="#products">Explore the collection <span aria-hidden="true">&rarr;</span></a>
-        <p class="hero-note">A considered collection. An easier everyday.</p>
-      </section>
       <section id="products" aria-labelledby="products-title">
-        <div class="section-heading"><div><p class="eyebrow">FIND YOUR EVERYDAY</p><h2 id="products-title">The collection</h2></div><p id="collection-summary">12 essentials &middot; 3 categories</p></div>
-        <p class="photo-note">Illustrative demo photography.</p>
-        <div class="product-controls" role="group" aria-label="Product search and filters">
-          <div class="field">
-            <label for="searchInput">Search by name</label>
-            <input id="searchInput" type="text" placeholder="Search products" />
-          </div>
-          <div class="field">
-            <label for="categorySelect">Category</label>
-            <select id="categorySelect">
-              <option value="">All Categories</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="sortSelect">Sort by price</label>
-            <select id="sortSelect">
-              <option value="">Default Order</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol>
+          <li><a href="/">Home</a></li>
+          <li><span>Collection</span></li>
+          <li><span id="breadcrumb-category" aria-current="page">All products</span></li>
+        </ol></nav>
+        <div class="catalog-layout">
+          <aside class="filters" aria-label="Product filters">
+            <button class="filter-toggle" id="filters-toggle" type="button" aria-expanded="false" aria-controls="filter-panel">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 17h16" /><circle cx="9" cy="7" r="3" fill="white" /><circle cx="15" cy="17" r="3" fill="white" /></svg>
+              Filters <span class="disclosure-mark" aria-hidden="true">+</span>
+            </button>
+            <div class="filter-panel" id="filter-panel" hidden>
+              <div class="filter-heading"><h2>Filters</h2><button class="text-button" id="clear-filters" type="button" data-reset-filters>Clear all</button></div>
+              <div class="filter-section">
+                <h3>Selected filters</h3>
+                <p class="filter-status" id="filter-status">No filters selected</p>
+                <div class="active-filters" id="active-filters" hidden></div>
+              </div>
+              <div class="filter-section">
+                <label for="categorySelect">Category</label>
+                <select id="categorySelect"><option value="">All Categories</option></select>
+                <p class="filter-help">Find a little more of what you love.</p>
+              </div>
+              <div class="collection-note">
+                <span class="collection-note-icon" aria-hidden="true">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14l1 14H4L5 7Z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg>
+                </span>
+                <h3>A considered collection.</h3>
+                <p>Bags, shoes, and the little things that make your day.</p>
+                <p id="collection-summary">12 essentials / 3 categories</p>
+              </div>
+            </div>
+          </aside>
+          <div class="catalog-results">
+            <div class="results-heading">
+              <p class="eyebrow">THE EVERYDAY EDIT</p>
+              <div class="results-title"><h1 id="products-title" tabindex="-1">All products</h1><span id="result-count">12 products</span></div>
+              <p>Everyday essentials. A little something for you.</p>
+            </div>
+            <div class="results-toolbar">
+              <p><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> The collection</p>
+              <div class="sort-field"><label for="sortSelect">Sort by</label><select id="sortSelect">
+                <option value="">Default order</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select></div>
+            </div>
+            <p class="sr-only" id="catalog-status" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="products"></div>
+            <p class="photo-note">Illustrative demo photography. All prices in USD.</p>
           </div>
         </div>
-        <div class="products"></div>
+      </section>
+      <div class="shop-bottom">
         <aside class="cart" id="cart" aria-labelledby="cart-title">
-          <h3 id="cart-title" tabindex="-1">Your cart</h3>
+          <p class="eyebrow">YOUR EVERYDAY FINDS</p>
+          <h2 id="cart-title" tabindex="-1">Your cart</h2>
           <p id="cart-empty">Your cart is empty. Add a product to get started.</p>
           <ul id="cart-items" aria-label="Cart items"></ul>
           <p class="price">Total: <span id="cart-total">$0.00</span> USD</p>
-          <button class="button" id="clear-cart" type="button" disabled>Clear cart</button>
+          <button class="button secondary-button" id="clear-cart" type="button" disabled>Clear cart</button>
           <p id="cart-status" role="status"></p>
           <small>Demo cart only. Checkout and payments are not available.</small>
         </aside>
-      </section>
       <section id="register" aria-labelledby="register-title">
+        <p class="eyebrow">A LITTLE MORE SHOPBOARD</p>
         <h2 id="register-title">Join ShopBoard</h2>
         <p>All fields are required. This demo validates your details but does not create an account.</p>
         <form method="post" action="#register">
@@ -84,8 +130,9 @@
           <p id="register-status" role="status"></p>
         </form>
       </section>
+      </div>
     </main>
-    <footer><a class="brand" href="#hero">ShopBoard<span aria-hidden="true">.</span></a><p>Thoughtful finds for everyday living.</p><a href="/admin-login.html">Admin sign in</a></footer>
+    <footer><a class="brand" href="#hero">ShopBoard<span aria-hidden="true">.</span></a><p>Good things. Every day.</p><a href="#products">Explore the collection</a><a href="/admin-login.html">Admin sign in</a></footer>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

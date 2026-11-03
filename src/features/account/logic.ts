@@ -1,6 +1,6 @@
 import { registrationMessage } from './data.ts';
 
-// Native form validation happens before the submit event reaches the UI.
+// Input: none, after native form validation; output: the truthful demo registration message.
 export function getRegistrationMessage() {
   return registrationMessage;
 }

@@ -1,8 +1,9 @@
-// getPage identifies which page main.ts should initialize without exposing DOM details.
+// Input: the current document; output: its page identifier or null for a document without one.
 export function getPage() { return document.body?.dataset.page ?? null; }
 
-// bindPageEvents forwards browser storage and navigation events to the application controller.
+// Input: storage/pageshow callbacks; output: registered page listeners forwarding relevant browser events.
 export function bindPageEvents({ onStorage, onPageShow }: { onStorage: (key: string | null) => void; onPageShow: () => void }) {
+  // Input: a storage event; output: forwards its changed key to the injected feature coordinator.
   window.addEventListener('storage', (event) => onStorage(event.key));
   window.addEventListener('pageshow', onPageShow);
 }

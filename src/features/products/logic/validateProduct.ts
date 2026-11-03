@@ -1,7 +1,7 @@
 import type { ProductValues } from '../types.ts';
 import { isProductImage } from './isProductImage.ts';
 
-// validateProduct rejects incomplete or invalid catalog data before it can be stored.
+// Input: proposed product values; output: no value when valid, or an actionable validation error.
 export function validateProduct(product: ProductValues) {
   if (!product || typeof product.name !== 'string' || !product.name.trim() || product.name.trim().length > 100) {
     throw new Error('Enter a product name between 1 and 100 characters.');

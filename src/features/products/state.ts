@@ -5,21 +5,26 @@ import { validateProduct } from './logic/validateProduct.ts';
 export { catalogStorageKey } from './data.ts';
 
 let state = { searchTerm: '', selectedCategory: '', selectedSort: '' };
+let productsInitialized = false;
 
-// getState returns a copy of the current product selections.
+// Input: none; output: true for the first browsing initialization claim and false for later claims.
+export function claimProductInitialization() {
+  if (productsInitialized) return false;
+  productsInitialized = true;
+  return true;
+}
+
+// Input: none; output: a snapshot of the current search, category, and sorting selections.
 export function getState() {
   return { ...state };
 }
 
-// setState updates the product selections without exposing the stored object.
+// Input: partial product selections; output: updated selections without exposing stored state.
 export function setState(selections: Partial<ProductSelections>) {
   state = { ...state, ...selections };
 }
 
-
-
-
-// loadProducts restores valid saved products, falling back to the demo catalog for unreadable data.
+// Input: browser storage; output: valid saved products or a fresh demo catalog when storage is unreadable.
 function loadProducts(): Product[] {
   try {
     const saved = globalThis.localStorage?.getItem(catalogStorageKey);
@@ -39,20 +44,22 @@ function loadProducts(): Product[] {
 }
 
 export const products = loadProducts();
+// Input: a product; output: its category for the initial distinct category list.
 export const categories = [...new Set(products.map((product) => product.category))];
 
-// replaceProducts refreshes the shared arrays so existing imports always see the current catalog.
+// Input: the next catalog; output: refreshed shared product and category arrays.
 function replaceProducts(nextProducts: Product[]) {
   products.splice(0, products.length, ...nextProducts);
+  // Input: a catalog product; output: its category for the refreshed distinct category list.
   categories.splice(0, categories.length, ...new Set(products.map((product) => product.category)));
 }
 
-// refreshProducts reloads browser storage when another page changes the catalog.
+// Input: current browser storage; output: shared catalog arrays refreshed from persistent state.
 export function refreshProducts() {
   replaceProducts(loadProducts());
 }
 
-// persistProducts writes changes before updating memory so a failed save leaves the catalog intact.
+// Input: the next catalog; output: persisted state and refreshed arrays, or an error leaving state intact.
 function persistProducts(nextProducts: Product[]) {
   if (!globalThis.localStorage) throw new Error('Browser storage is unavailable. Product changes could not be saved.');
   try {
@@ -63,11 +70,13 @@ function persistProducts(nextProducts: Product[]) {
   replaceProducts(nextProducts);
 }
 
-// saveProduct creates a product or updates an existing one while retaining its ID.
+// Input: product values and an optional existing ID; output: a persisted product with a stable ID.
 export function saveProduct(values: ProductValues, id = values.id) {
   validateProduct(values);
+  // Input: a catalog product; output: whether it has the requested existing ID.
   if (id !== undefined && !products.some((product) => product.id === id)) throw new Error('This product no longer exists.');
   const product = {
+    // Input: a catalog product; output: its ID for determining a unique new ID.
     id: id ?? Math.max(Date.now(), ...products.map((item) => item.id)) + 1,
     name: values.name.trim(),
     category: values.category.trim(),
@@ -75,13 +84,16 @@ export function saveProduct(values: ProductValues, id = values.id) {
     image: values.image,
     inStock: values.inStock,
   };
+  // Input: a catalog item; output: the saved product in place of its matching existing ID.
   const nextProducts = id === undefined ? [...products, product] : products.map((item) => item.id === id ? product : item);
   persistProducts(nextProducts);
   return product;
 }
 
-// deleteProduct removes the requested product and persists the remaining catalog.
+// Input: an existing product ID; output: a persisted catalog without that product, or an error.
 export function deleteProduct(id: number) {
+  // Input: a catalog product; output: whether it has the requested deletion ID.
   if (!products.some((product) => product.id === id)) throw new Error('This product no longer exists.');
+  // Input: a catalog product; output: whether it should remain after deletion.
   persistProducts(products.filter((product) => product.id !== id));
 }

@@ -1,0 +1,44 @@
+/* Catalog controls stay in document flow, including on narrow screens. */
+#products { padding-block: 1.25rem 2.5rem; }
+.breadcrumbs { margin-bottom: 1.5rem; font-size: .75rem; color: var(--color-muted); }
+.breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .5rem; }
+.breadcrumbs li { display: flex; align-items: center; gap: .5rem; min-width: 0; overflow-wrap: anywhere; }
+.breadcrumbs li + li::before { content: '/'; color: #858585; }
+.breadcrumbs [aria-current] { font-weight: 600; color: var(--color-text); }
+.catalog-layout { display: grid; gap: 1.5rem; align-items: start; }
+.catalog-results, .filters { min-width: 0; }
+.filter-toggle { width: 100%; display: flex; align-items: center; gap: .625rem; padding: .75rem 1rem; min-height: 3rem; border: 1px solid var(--color-control-border); border-radius: .625rem; background: white; color: var(--color-text); font-weight: 700; }
+.disclosure-mark { margin-left: auto; font-size: 1.25rem; line-height: 1; }
+.filter-toggle[aria-expanded="true"] .disclosure-mark { transform: rotate(45deg); }
+.filter-panel { margin-top: .75rem; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: .75rem; background: var(--color-surface); }
+.filter-heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.filter-heading h2 { font-size: 1.125rem; margin: 0; }
+.text-button { min-height: 2.75rem; padding: .5rem .25rem; border: 0; background: transparent; color: var(--color-action); font-size: .8125rem; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+.text-button:disabled { color: var(--color-muted); cursor: default; text-decoration: none; }
+.filter-section { padding-block: 1.25rem; border-bottom: 1px solid var(--color-border); }
+.filter-section h3, .filter-section label { margin: 0 0 .75rem; font-size: .875rem; font-weight: 700; }
+.filter-status, .filter-help { font-size: .8125rem; color: var(--color-muted); }
+.filter-status { margin: 0; }
+.filter-help { margin: .75rem 0 0; }
+.active-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; max-height: 16rem; overflow-y: auto; }
+.filter-chip { display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 2.75rem; max-width: 100%; padding: .5rem .75rem; border: 1px solid var(--color-action); border-radius: 1.5rem; color: var(--color-action); background: #fff7f1; font-size: .8125rem; text-align: left; overflow-wrap: anywhere; }
+.filter-chip:hover { background: #ffecdc; }
+.filter-chip span { font-size: 1.125rem; }
+.collection-note { padding-top: 1.5rem; }
+.collection-note-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .75rem; color: var(--color-action); background: #fff3e9; }
+.collection-note h3 { margin: 1rem 0 .5rem; font-size: .875rem; }
+.collection-note p { margin: 0; color: var(--color-muted); font-size: .8125rem; }
+.collection-note #collection-summary { margin-top: 1rem; font-size: .75rem; }
+.results-heading { margin-bottom: 1.5rem; }
+.results-title { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
+.results-title h1 { margin: 0; }
+#result-count { padding: .25rem .625rem; border: 1px solid var(--color-border); border-radius: 1rem; color: var(--color-muted); font-size: .75rem; white-space: nowrap; }
+.results-heading > p:last-child { margin: .625rem 0 0; color: var(--color-muted); font-size: .875rem; }
+.results-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; padding-block: .875rem; margin-bottom: 1.25rem; border-block: 1px solid var(--color-border); }
+.results-toolbar > p { display: flex; align-items: center; gap: .625rem; margin: 0; font-size: .8125rem; font-weight: 600; }
+.results-toolbar > p .icon { width: 1rem; height: 1rem; color: var(--color-muted); }
+.sort-field { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; width: 100%; }
+.sort-field label { flex-shrink: 0; margin: 0; font-size: .8125rem; }
+.sort-field select { flex: 1; width: auto; min-width: 0; padding: .625rem 1.75rem .625rem .75rem; font-size: .8125rem; }
+.photo-note { margin: 1rem 0 0; color: var(--color-muted); font-size: .75rem; }
+

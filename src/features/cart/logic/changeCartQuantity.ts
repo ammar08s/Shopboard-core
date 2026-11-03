@@ -3,7 +3,7 @@ import type { Product } from '../../products/types.ts';
 import type { Cart } from '../types.ts';
 import { getCartProducts } from './getCartProducts.ts';
 
-// changeCartQuantity returns a new cart for valid quantities and available products.
+// Input: cart, product ID, quantity, and catalog; output: an updated copy, or the original for invalid changes.
 export function changeCartQuantity(cart: Cart, id: string | number, quantity: number, catalog: Product[]) {
   const products = getCartProducts(catalog);
   if (!Object.hasOwn(products, id) || !Number.isInteger(quantity) || quantity < 0 || quantity > maxCartQuantity) return cart;
