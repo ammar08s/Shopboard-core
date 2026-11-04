@@ -3,6 +3,9 @@ import { isProductImage } from './isProductImage.ts';
 
 // Input: proposed product values; output: no value when valid, or an actionable validation error.
 export function validateProduct(product: ProductValues) {
+  if (product?.description !== undefined && (typeof product.description !== 'string' || product.description.length > 2000)) {
+    throw new Error('Enter a description of at most 2,000 characters.');
+  }
   if (!product || typeof product.name !== 'string' || !product.name.trim() || product.name.trim().length > 100) {
     throw new Error('Enter a product name between 1 and 100 characters.');
   }

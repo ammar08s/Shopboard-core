@@ -4,6 +4,12 @@ export function createElement(tag = 'div') {
     tagName: tag.toUpperCase(), value: '', innerHTML: '', textContent: '', className: '',
     id: '', dataset: {}, attributes: {}, listeners: {}, children: [], parentElement: null,
     hidden: false, isConnected: true, hovered: false,
+    offsetLeft: 0, offsetWidth: 0,
+    style: {
+      values: {},
+      // Input: a CSS custom property and value; output: its inline value for layout assertions.
+      setProperty(name, value) { this.values[name] = value; },
+    },
     // Input: event type and handler; output: records a simulated interaction handler.
     addEventListener(type, handler) { this.listeners[type] = handler; },
     // Input: attribute name/value; output: reflects the attribute on the element.
@@ -31,6 +37,8 @@ export function createElement(tag = 'div') {
     // Input: a supported selector; output: whether this element matches it.
     matches(selector) {
       if (selector === ':hover') return this.hovered;
+      if (selector === '[data-category]') return Object.hasOwn(this.dataset, 'category');
+      if (selector === '[aria-pressed="true"]') return this.attributes['aria-pressed'] === 'true';
       if (selector.startsWith('.')) return this.className.split(' ').includes(selector.slice(1));
       const data = selector.match(/^\[data-notification-id="(\d+)"\]$/);
       return data ? this.dataset.notificationId === data[1] : this.tagName.toLowerCase() === selector;
@@ -43,6 +51,11 @@ export function createElement(tag = 'div') {
         if (nested) return nested;
       }
       return null;
+    },
+    // Input: a supported selector; output: all matching descendants in document order.
+    querySelectorAll(selector) {
+      // Input: a child; output: its own match followed by matching descendants.
+      return this.children.flatMap((child) => [ ...(child.matches(selector) ? [child] : []), ...child.querySelectorAll(selector) ]);
     },
     // Input: none; output: updates the document's focused element.
     focus() { globalThis.document.activeElement = this; },

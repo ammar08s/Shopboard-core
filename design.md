@@ -1,5 +1,7 @@
 # ShopBoard Design
 
+Shared select controls and option-menu styling are specified below in [Selection component design](#selection-component-design) and implemented in `src/styles/selects.css`.
+
 Status: Draft design specification, ready for review before implementation.
 
 Reference: the user-provided desktop screenshot of a Hepsiburada product listing page. This document is based on that image and the existing ShopBoard project; it does not claim to describe the reference site's source code or unseen screens.
@@ -303,3 +305,41 @@ Do not render these later enhancements as dead controls in the first pass. Recor
 The desktop reference direction is supplied by the user. The following are proposals in this draft: adapting the design to ShopBoard branding and existing features, removing the large hero, exact tokens and sizing, mobile behavior, lower card content, and matching treatments for unseen account/admin pages.
 
 Review these proposals before changing the application. This file records the design; creating it does not implement the redesign.
+
+
+# Selection component design
+
+This supplements the marketplace specification above.
+
+## Shared appearance
+
+- Apply `src/styles/selects.css` globally through `shop.css` to every HTML select.
+- Use the same treatment for storefront sorting/category filters and admin image source, demo photo, category, and availability fields, including dynamically populated options.
+- Closed controls have a white surface, 12px corners, the existing readable control border, and an orange hover/open border.
+- Menus have a white surface, 12px corners, a light gray border, 6px inner padding, an 8px gap from the control, and a restrained shadow.
+- Option rows have 8px corners, at least 44px height, and comfortable spacing. Long labels wrap; tall menus scroll within the viewport.
+- Selected options use a pale orange surface, dark orange text, semibold weight, and the browser's selection checkmark.
+- Hover and keyboard focus use a soft orange surface. Keyboard focus retains a visible blue outline.
+- Menus fade and slide 4px over 160ms; the arrow rotates when opened. Honor reduced-motion preferences by disabling transitions.
+- Disabled controls use a muted surface and text with a disabled cursor.
+
+## Behavior and compatibility
+
+Keep semantic labeled selects and native option elements so keyboard navigation, type-ahead, required validation, form reset, and change events stay browser-managed.
+
+Use `appearance: base-select` and `::picker(select)` inside a feature query to customize the actual option list. Unsupported browsers retain their native option menus and receive the shared rounded closed-control styling.
+
+No JavaScript, feature state, storage, or markup changes are needed for this visual treatment. Future selects inherit it automatically.
+
+## Product pages and demo reviews
+
+- Product image/title links open `/product.html?id=<id>` and keep card purchase buttons independent.
+- Detail pages use the shared orange identity and multicolor header strip, a collection breadcrumb, a large rounded image area, and a clear information column.
+- Show category, product name, product ID, USD price, availability, and an optional description. Preserve line breaks in descriptions.
+- Use a full-width rounded Add to cart action and a header link to the storefront cart with its current quantity badge.
+- Stack product information on small screens; from 768px place the image and information side by side.
+- Place ratings and comments below the product in separate rounded panels. Use a warm tinted rating panel, white comment panel, and a visible browser-only demo note.
+- Use five labeled, keyboard-operable radio choices for 1–5 stars, with orange selection and blue keyboard focus. One browser vote can be updated; summaries show the saved average and count.
+- Show comments as text-only cards with the author, date, and message. Display an inviting empty state until the first comment is saved.
+- Keep labels visible, fields at full width, touch targets at least 44px, and reduced-motion preferences respected.
+- Missing/deleted products show an unavailable message and collection link with purchase/review controls hidden.

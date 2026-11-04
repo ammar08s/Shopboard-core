@@ -3,7 +3,6 @@ import { products as defaultProducts, catalogStorageKey } from './data.ts';
 import { validateProduct } from './logic/validateProduct.ts';
 
 export { catalogStorageKey } from './data.ts';
-
 let state = { searchTerm: '', selectedCategory: '', selectedSort: '' };
 let productsInitialized = false;
 
@@ -74,7 +73,8 @@ function persistProducts(nextProducts: Product[]) {
 export function saveProduct(values: ProductValues, id = values.id) {
   validateProduct(values);
   // Input: a catalog product; output: whether it has the requested existing ID.
-  if (id !== undefined && !products.some((product) => product.id === id)) throw new Error('This product no longer exists.');
+  const existing = products.find((product) => product.id === id);
+  if (id !== undefined && !existing) throw new Error('This product no longer exists.');
   const product = {
     // Input: a catalog product; output: its ID for determining a unique new ID.
     id: id ?? Math.max(Date.now(), ...products.map((item) => item.id)) + 1,
@@ -83,6 +83,7 @@ export function saveProduct(values: ProductValues, id = values.id) {
     price: Math.round(values.price * 100) / 100,
     image: values.image,
     inStock: values.inStock,
+    description: (values.description ?? existing?.description ?? '').trim(),
   };
   // Input: a catalog item; output: the saved product in place of its matching existing ID.
   const nextProducts = id === undefined ? [...products, product] : products.map((item) => item.id === id ? product : item);

@@ -19,6 +19,7 @@ export function createEditorSubmit(elements: EditorElements, state: EditorState,
       if (isEditing && !stillExists) throw new Error('This product was deleted in another tab.');
       const product = operations.saveProduct({
         name: elements.name.value,
+        description: elements.description.value,
         category: elements.category.value === '__new__' ? elements.newCategory.value : elements.category.value.slice('existing:'.length),
         price: elements.price.valueAsNumber,
         inStock: elements.stock.value === 'true',

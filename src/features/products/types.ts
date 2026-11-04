@@ -7,6 +7,7 @@ export interface Product {
   price: number;
   image: string;
   inStock: boolean;
+  description?: string;
 }
 
 export type ProductValues = Omit<Product, 'id'> & { id?: number };

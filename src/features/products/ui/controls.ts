@@ -1,3 +1,5 @@
+import { bindCategoryMotion } from './category-motion.ts';
+
 // Input: current page controls; output: the search, category, and sorting values.
 export function readProductControls() {
   return {
@@ -9,6 +11,7 @@ export function readProductControls() {
 
 // Input: a render callback; output: bound search, filtering, navigation, and photo fallback events.
 export function bindProductControls(onChange: () => void) {
+  bindCategoryMotion();
   const search = document.querySelector<HTMLInputElement>('#searchInput');
   const category = document.querySelector<HTMLSelectElement>('#categorySelect');
   const sort = document.querySelector<HTMLSelectElement>('#sortSelect');

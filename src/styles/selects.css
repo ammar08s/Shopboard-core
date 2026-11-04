@@ -1,0 +1,65 @@
+/* Shared select treatment; native menus remain the fallback in older browsers. */
+select {
+  min-width: 0;
+  border-radius: .75rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+select:enabled:hover { border-color: var(--color-action); background-color: #fffaf6; }
+select:focus-visible { border-color: var(--color-action); box-shadow: 0 0 0 4px #ff600014; }
+select:disabled { color: var(--color-muted); background: var(--color-surface-muted); cursor: not-allowed; }
+
+@supports (appearance: base-select) {
+  select, select::picker(select) { appearance: base-select; }
+  select { align-items: center; gap: .75rem; }
+  select::picker-icon {
+    margin-inline-start: auto;
+    color: var(--color-muted);
+    transition: rotate 160ms ease, color 160ms ease;
+  }
+  select:open { border-color: var(--color-action); box-shadow: 0 0 0 4px #ff600014; }
+  select:open::picker-icon { rotate: 180deg; color: var(--color-action); }
+  select::picker(select) {
+    margin-block: .5rem;
+    padding: .375rem;
+    max-height: min(22rem, 60dvh);
+    max-width: calc(100vw - 2rem);
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: .75rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 12px 32px #4848481f, 0 2px 6px #4848480a;
+    opacity: 0;
+    transform: translateY(-.25rem);
+    transition: opacity 160ms ease, transform 160ms ease, display 160ms allow-discrete, overlay 160ms allow-discrete;
+  }
+  select:open::picker(select) { opacity: 1; transform: translateY(0); }
+  @starting-style {
+    select:open::picker(select) { opacity: 0; transform: translateY(-.25rem); }
+  }
+  select option {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    padding: .625rem .75rem;
+    border-radius: .5rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+  select option + option { margin-top: .125rem; }
+  select option:checked { color: var(--color-action); background: #fff0e5; font-weight: 600; }
+  select option:enabled:hover, select option:focus-visible { color: var(--color-action-hover); background: #fff7f1; }
+  select option:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+  select option::checkmark { color: var(--color-action); }
+  select option:disabled { color: var(--color-muted); cursor: not-allowed; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  select { transition: none; }
+  @supports (appearance: base-select) {
+    select::picker-icon, select::picker(select), select option { transition: none; }
+  }
+}

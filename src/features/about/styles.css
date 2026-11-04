@@ -1,0 +1,45 @@
+/* Static about-page presentation extends the shared marketplace design tokens. */
+.about-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 2rem; padding-block: 1.25rem; }
+.about-header nav ul { display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; }
+.about-header nav a { display: inline-flex; align-items: center; min-height: 2.75rem; font-size: .875rem; }
+.about-header [aria-current] { color: var(--color-action); font-weight: 700; }
+.about-page, .about-footer { max-width: 75rem; }
+.about-page { padding-block: 1.5rem 3rem; }
+.about-intro { display: grid; gap: 2rem; padding-block: 1rem 2.5rem; }
+.about-intro > div { min-width: 0; }
+.about-intro h1 { margin: .5rem 0 1rem; font-size: clamp(2rem, 5vw, 3.5rem); }
+.about-tagline { margin: 0 0 1rem; font-size: 1.25rem; font-weight: 700; }
+.about-intro p:not(.eyebrow, .about-tagline) { color: var(--color-muted); }
+.about-intro > div > p { max-width: 56ch; }
+.about-demo { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: 1.5rem 0 0; font-size: .8125rem; }
+.about-story { padding: 1.5rem; border: 1px solid #f5d7c2; border-radius: .75rem; background: #fff5ed; }
+.about-story h2 { margin: .75rem 0 1rem; font-size: 1.75rem; }
+.about-story p:last-child { margin-bottom: 0; }
+.about-values { padding-block: 2rem 2.5rem; border-top: 1px solid var(--color-border); }
+.about-values h2 { margin: 0 0 .75rem; }
+.about-section-copy { margin: 0 0 1.5rem; color: var(--color-muted); }
+.about-value-grid { display: grid; gap: 1rem; }
+.about-value { min-width: 0; padding: 1.5rem; border: 1px solid var(--color-border); border-radius: .75rem; }
+.about-value-number { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .75rem; color: var(--color-action); background: #fff3e9; font-size: .875rem; font-weight: 700; }
+.about-value h3 { margin: 1rem 0 .75rem; font-size: 1.125rem; }
+.about-value p { margin: 0; color: var(--color-muted); }
+.about-invitation { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.5rem; border: 1px solid var(--color-border); border-radius: .75rem; background: var(--color-surface-muted); }
+.about-invitation h2 { margin: 0 0 .5rem; font-size: 1.25rem; }
+.about-invitation p { margin: 0; color: var(--color-muted); }
+.about-invitation .button { width: 100%; }
+.about-footer > a:not(.brand) { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+@media (min-width: 40rem) {
+  .about-header { padding-block: 1.5rem; }
+  .about-page { padding-block: 2rem 3rem; }
+  .about-intro { padding-block: 1.5rem 3rem; }
+  .about-story, .about-invitation { padding: 2rem; }
+  .about-value-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  .about-values { padding-block: 2.5rem 3rem; }
+  .about-invitation .button { width: auto; }
+}
+
+@media (min-width: 64rem) {
+  .about-intro { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
+  .about-story { padding: 2.5rem; }
+}

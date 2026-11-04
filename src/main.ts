@@ -12,18 +12,24 @@ import { initializeLogin, initializeRegistration } from './features/account/ui.t
 import { initializeNotifications } from './features/notifications/ui.ts';
 import type { Notify } from './features/notifications/types.ts';
 import { getPage, bindPageEvents } from './shared/ui.ts';
+import { initializeProductDetails } from './features/product-details/ui.ts';
+import { createReviewsState } from './features/reviews/state.ts';
+import { initializeReviews } from './features/reviews/ui.ts';
+import { cartStorageKey } from './features/cart/data.ts';
 
 // Input: no getter arguments; output: the latest catalog for cart state calculations.
 const cartState = createCartState(() => productState.products);
 
 // Input: current catalog and browsing selections; output: synchronized cards, filters, and result feedback.
 function renderProducts() {
+  const previous = productState.getState();
   productState.setState(readProductControls());
   const selections = productState.getState();
   const visibleProducts = getVisibleProducts(productState.products, selections);
   renderCollectionSummary(productState.products.length, productState.categories.length);
   renderProductResults(visibleProducts, selections, productState.categories);
-  renderProductCards(visibleProducts);
+  const animate = previous.selectedCategory !== selections.selectedCategory || previous.selectedSort !== selections.selectedSort;
+  renderProductCards(visibleProducts, animate);
 }
 
 // Input: the storefront DOM; output: product controls connected once to the current catalog.
@@ -45,13 +51,14 @@ function initializeShop(notify: Notify) {
   // Input: a catalog refresh event; output: current categories, cards, and reconciled cart feedback.
   const refresh = () => {
     productState.refreshProducts();
+    const cartWarning = cartState.reloadCart();
     renderCategories(productState.categories);
     renderProducts();
-    cartView.refresh(cartState.reconcileCart(), 'warning');
+    cartView.refresh(cartState.reconcileCart() || cartWarning, 'warning');
   };
   bindPageEvents({
-    // Input: changed storage key; output: refreshes only catalog-affecting changes.
-    onStorage(key) { if (key === productState.catalogStorageKey || key === null) refresh(); },
+    // Input: changed storage key; output: refreshes catalog and cart changes from other pages.
+    onStorage(key) { if (key === productState.catalogStorageKey || key === cartStorageKey || key === null) refresh(); },
     onPageShow: refresh,
   });
 }
@@ -80,3 +87,10 @@ const page = getPage();
 if (page === 'shop') initializeShop(initializeNotifications());
 else if (page === 'admin') initializeAdmin(initializeNotifications());
 else if (page === 'login') initializeLogin();
+else if (page === 'product') initializeProductDetails({
+  // Input: no getter arguments; output: the latest catalog for the product page.
+  getProducts: () => productState.products, refreshProducts: productState.refreshProducts,
+  getCart: cartState.getCart, reloadCart: cartState.reloadCart, onAdd: cartState.addToCart,
+  // Input: a product ID and availability check; output: that product's connected local review forms.
+  bindReviews: (id, canReview) => initializeReviews(id, createReviewsState(), canReview), notify: initializeNotifications(),
+});

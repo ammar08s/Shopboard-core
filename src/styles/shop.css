@@ -3,8 +3,12 @@
 @import "./catalog.css";
 @import "./product-cards.css";
 @import "./controls.css";
+@import "./selects.css";
 @import "./cart-registration.css";
 @import "./admin-account.css";
 @import "./product-editor.css";
 @import "./responsive.css";
+@import "./catalog-motion.css";
 @import "./notifications.css";
+@import "./product-detail.css";
+@import "./reviews.css";

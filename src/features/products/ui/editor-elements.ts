@@ -4,6 +4,7 @@ export function getEditorElements() {
     dialog: document.querySelector<HTMLDialogElement>('#product-dialog'),
     form: document.querySelector<HTMLFormElement>('#product-form'),
     name: document.querySelector<HTMLInputElement>('#product-name'),
+    description: document.querySelector<HTMLTextAreaElement>('#product-description'),
     category: document.querySelector<HTMLSelectElement>('#product-category'),
     newCategory: document.querySelector<HTMLInputElement>('#new-category'),
     price: document.querySelector<HTMLInputElement>('#product-price'),

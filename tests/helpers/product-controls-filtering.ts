@@ -51,7 +51,7 @@ export function checkProductControlFiltering({ elements, container, search, cate
   });
   assert.equal(category.value, 'Shoes');
   assert.deepEqual(displayedIds(), [5, 6, 4, 11]);
-  assert.match(elements['#category-navigation'].innerHTML, /data-category="Shoes"[^>]*aria-pressed="true"/);
+  assert.equal(elements['#category-navigation'].querySelector('[aria-pressed="true"]').dataset.category, 'Shoes');
   search.value = 'Running';
   search.listeners.input();
   assert.equal(elements['#result-count'].textContent, '1 product');

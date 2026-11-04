@@ -9,10 +9,24 @@ import { getCartProducts as cartCatalog } from './logic/getCartProducts.ts';
 // Input: a live catalog getter; output: cart state and persistence operations using current product data.
 export function createCartState(getProducts: () => Product[]) {
   let cart: Cart = {};
+  let hasUnsavedChanges = false;
   try { cart = restoreCartItems(globalThis.localStorage?.getItem(cartStorageKey), getProducts()); } catch { /* Keep the cart usable without storage. */ }
 
   // Input: none; output: a copy of current quantities, safe for rendering without mutating stored state.
   function getCart() { return { ...cart }; }
+
+  // Input: current browser storage; output: quantities reloaded after navigation or another page's cart change.
+  function reloadCart() {
+    try {
+      if (hasUnsavedChanges || !globalThis.localStorage) return '';
+      const saved = globalThis.localStorage.getItem(cartStorageKey);
+      cart = restoreCartItems(saved, getProducts());
+      const raw = JSON.parse(saved ?? '{}');
+      // Input: a saved product ID; output: whether restoration removed this unavailable/invalid item.
+      const removed = raw && typeof raw === 'object' && Object.keys(raw).some((id) => !cart[id]);
+      return removed ? 'Unavailable products were removed from your cart.' : '';
+    } catch { return ''; }
+  }
 
   // Input: none; output: the supplied catalog converted to current cart products and cent prices.
   function getCartProducts() { return cartCatalog(getProducts()); }
@@ -25,8 +39,9 @@ export function createCartState(getProducts: () => Product[]) {
     try {
       if (!globalThis.localStorage) throw new Error('Storage unavailable');
       globalThis.localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+      hasUnsavedChanges = false;
       return '';
-    } catch { return ' Cart changes cannot be saved on this browser.'; }
+    } catch { hasUnsavedChanges = true; return ' Cart changes cannot be saved on this browser.'; }
   }
 
   // Input: product ID and quantity; output: updated persisted cart state and any storage warning.
@@ -53,5 +68,5 @@ export function createCartState(getProducts: () => Product[]) {
     return previous !== JSON.stringify(cart) ? 'Unavailable products were removed from your cart.' + warning : '';
   }
 
-  return { getCart, getCartProducts, cartTotal, updateCart, addToCart, clearCart, reconcileCart };
+  return { getCart, reloadCart, getCartProducts, cartTotal, updateCart, addToCart, clearCart, reconcileCart };
 }

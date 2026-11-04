@@ -8,6 +8,7 @@ import { updateCategory, updateImageFields } from './editor-fields.ts';
 export function openEditor(elements: EditorElements, state: EditorState, operations: CatalogOperations, product: Product | null) {
   state.reset(product?.id ?? null, product?.image.startsWith('data:') ? product.image : '');
   elements.form.reset();
+  elements.description.value = product?.description ?? '';
   elements.status.textContent = '';
   // Input: a category; output: its escaped existing-category option markup.
   elements.category.innerHTML = '<option value="">Choose a category</option>' + operations.getCategories().map((category) => `<option value="existing:${escapeHtml(category)}">${escapeHtml(category)}</option>`).join('') + '<option value="__new__">+ Add a new category...</option>';

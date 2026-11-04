@@ -1,4 +1,5 @@
 import { escapeHtml } from '../logic/escapeHtml.ts';
+import { updateCategoryIndicator } from './category-motion.ts';
 
 // Input: available categories; output: refreshed category controls with any valid selection retained.
 export function renderCategories(categories: string[]) {
@@ -12,11 +13,27 @@ export function renderCategories(categories: string[]) {
   renderCategoryNavigation(categories, select.value);
 }
 
-// Input: categories and selected category; output: matching header navigation markup in the DOM.
+// Input: categories and selected category; output: stable navigation buttons and a synchronized indicator.
 export function renderCategoryNavigation(categories: string[], selectedCategory: string) {
   const navigation = document.querySelector<HTMLElement>('#category-navigation');
-  // Input: a category name; output: an accessible category navigation button.
-  navigation.innerHTML = ['', ...categories].map((category) => `
-    <li><button type="button" data-category="${escapeHtml(category)}" aria-pressed="${category === selectedCategory}">${category ? escapeHtml(category) : 'All products'}</button></li>
-  `).join('');
+  const names = ['', ...categories];
+  const buttons = Array.from(navigation.querySelectorAll<HTMLButtonElement>('[data-category]'));
+  // Input: an existing button and its position; output: whether the available category list changed.
+  const changed = buttons.length !== names.length || buttons.some((button, index) => button.dataset.category !== names[index]);
+  if (changed) navigation.replaceChildren(...names.map(createCategoryItem));
+  for (const button of navigation.querySelectorAll<HTMLButtonElement>('[data-category]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.category === selectedCategory));
+  }
+  updateCategoryIndicator(navigation);
+}
+
+// Input: one category name; output: a safe, accessible navigation item whose identity survives selection changes.
+function createCategoryItem(category: string) {
+  const item = document.createElement('li');
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.dataset.category = category;
+  button.textContent = category || 'All products';
+  item.append(button);
+  return item;
 }

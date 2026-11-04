@@ -1,3 +1,5 @@
+import { createElement } from './dom.ts';
+
 // Input: none; output: persistent listing controls and actions backed by the real product initialization.
 export async function createProductControlsFixture() {
   // Input: a selector; output: its corresponding simulated listing element.
@@ -17,9 +19,12 @@ export async function createProductControlsFixture() {
     focus() { this.focused = true; },
   }]);
   const elements = Object.fromEntries(entries);
+  elements['#category-navigation'] = createElement('ul');
   globalThis.document = {
+    createElement,
     // Input: a CSS selector; output: its fixture element.
-    querySelector: (selector) => elements[selector],
+    querySelector: (selector) => selector === '#category-navigation [aria-pressed="true"]'
+      ? elements['#category-navigation'].querySelector('[aria-pressed="true"]') : elements[selector],
   };
   const { initializeProducts } = await import('../../src/main.ts');
   initializeProducts();

@@ -1,0 +1,31 @@
+/* A persistent indicator follows selection while button colors blend in place. */
+.category-bar ul { position: relative; }
+.category-bar ul[data-indicator-ready="true"]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--category-indicator-width);
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--color-brand);
+  transform: translateX(var(--category-indicator-x));
+  pointer-events: none;
+}
+.category-bar ul[data-indicator-ready="true"] button[aria-pressed="true"] { border-bottom-color: transparent; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .category-bar button { transition: color .18s ease, background-color .22s ease, transform .18s ease; }
+  .category-bar button:active { transform: scale(.98); }
+  .category-bar ul[data-indicator-ready="true"]::after {
+    transition: transform .28s cubic-bezier(.22, .61, .36, 1), width .28s cubic-bezier(.22, .61, .36, 1);
+  }
+  .products[data-animate-results="true"] > :is(.product-card, .empty-results) {
+    animation: catalog-reveal .26s cubic-bezier(.22, .61, .36, 1) both;
+    animation-delay: calc(min(var(--card-index, 0), 4) * 18ms);
+  }
+}
+@keyframes catalog-reveal {
+  from { opacity: .35; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

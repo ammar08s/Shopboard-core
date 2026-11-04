@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore product details and leave a demo rating or comment on ShopBoard." />
+  <title>Product details | ShopBoard</title>
+  <link rel="stylesheet" href="/src/styles/shop.css" />
+</head>
+<body data-page="product">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="detail-header page-width">
+    <a class="brand" href="/" aria-label="ShopBoard home">ShopBoard<span aria-hidden="true">.</span></a>
+    <nav aria-label="Shop navigation"><ul>
+      <li><a class="detail-shop-link" href="/">Shop the collection</a></li>
+      <li><a class="cart-link" id="cart-link" href="/#cart" aria-label="Your cart, 0 items">Your cart <span class="cart-count" id="cart-count">0</span></a></li>
+    </ul></nav>
+  </header>
+  <div class="spectrum-strip" aria-hidden="true"></div>
+  <main id="main-content" class="product-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#products">Collection</a></li><li aria-current="page">Product details</li></ol></nav>
+    <section id="product-detail" class="product-detail" aria-label="Product details"></section>
+    <p id="product-purchase-status" role="status" aria-live="polite"></p>
+    <section id="product-reviews" class="product-reviews" aria-labelledby="reviews-title" hidden>
+      <div class="reviews-heading"><div><p class="eyebrow">YOUR PERSPECTIVE</p><h2 id="reviews-title">Ratings &amp; comments</h2></div><span class="demo-badge">BROWSER-ONLY DEMO</span></div>
+      <p class="review-demo-note">Try it out: ratings and comments are saved only in this browser. They are demo feedback and are not shared with other visitors.</p>
+      <div class="review-layout">
+        <section class="review-panel rating-panel" aria-labelledby="rating-title">
+          <h3 id="rating-title">How would you rate it?</h3>
+          <p id="rating-summary" class="rating-summary"></p>
+          <form id="rating-form" aria-describedby="rating-help">
+            <fieldset class="star-fieldset"><legend>Your rating</legend>
+              <div class="star-options">
+                <div class="star-option"><input id="rating-1" type="radio" name="rating" value="1" required /><label for="rating-1"><span aria-hidden="true">★</span><span class="sr-only">1 star</span><span aria-hidden="true">1</span></label></div>
+                <div class="star-option"><input id="rating-2" type="radio" name="rating" value="2" /><label for="rating-2"><span aria-hidden="true">★</span><span class="sr-only">2 stars</span><span aria-hidden="true">2</span></label></div>
+                <div class="star-option"><input id="rating-3" type="radio" name="rating" value="3" /><label for="rating-3"><span aria-hidden="true">★</span><span class="sr-only">3 stars</span><span aria-hidden="true">3</span></label></div>
+                <div class="star-option"><input id="rating-4" type="radio" name="rating" value="4" /><label for="rating-4"><span aria-hidden="true">★</span><span class="sr-only">4 stars</span><span aria-hidden="true">4</span></label></div>
+                <div class="star-option"><input id="rating-5" type="radio" name="rating" value="5" /><label for="rating-5"><span aria-hidden="true">★</span><span class="sr-only">5 stars</span><span aria-hidden="true">5</span></label></div>
+              </div>
+            </fieldset>
+            <p id="rating-help" class="review-help">One rating per product in this browser. You can change it anytime.</p>
+            <button class="button" id="save-rating" type="submit">Save your rating</button>
+            <p id="rating-status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="review-panel" aria-labelledby="comment-form-title">
+          <h3 id="comment-form-title">Leave a comment</h3>
+          <p class="review-help">What would you like to share about this product?</p>
+          <form id="comment-form">
+            <div class="field"><label for="comment-name">Your name</label><input id="comment-name" name="name" autocomplete="nickname" maxlength="60" required /></div>
+            <div class="field"><label for="comment-body">Your comment</label><textarea id="comment-body" name="comment" rows="4" maxlength="1000" required aria-describedby="comment-help"></textarea><small id="comment-help">Up to 1,000 characters. Please avoid sharing private information.</small></div>
+            <button class="button" type="submit">Post demo comment <span aria-hidden="true">↗</span></button>
+            <p id="comment-status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+      <section class="comments-section" aria-labelledby="comments-title"><h3 id="comments-title">The conversation <span id="comment-count" class="comment-count">0</span></h3>
+        <p id="comments-empty" class="comments-empty">No comments yet. Start the conversation with a demo comment.</p>
+        <ol id="comment-list" class="comment-list"></ol>
+      </section>
+    </section>
+    <noscript><h1>Product details</h1><p>Enable JavaScript to view products and demo reviews, or <a href="/">return to the shop</a>.</p></noscript>
+  </main>
+  <footer class="detail-footer page-width"><p>ShopBoard · Everyday essentials.</p><a href="/">Back to the collection <span aria-hidden="true">↗</span></a></footer>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
